@@ -1,0 +1,21 @@
+id: default
+groups: {}
+routes:
+  - id: XqkY1x
+    name: Tanium
+    final: true
+    disabled: false
+    pipeline: TaniumAsset
+    description: A route for Tanium Data
+    clones: []
+    filter: sourcetype=='tanium'
+    output: default
+  - id: default
+    name: default
+    final: true
+    disabled: false
+    pipeline: main
+    description: ""
+    clones: []
+    filter: "true"
+    output: default
