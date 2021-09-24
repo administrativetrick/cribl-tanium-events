@@ -35,7 +35,7 @@ functions:
       comment: Enable Eval to set Index name if sending to Splunk
   - id: eval
     filter: "true"
-    disabled: false
+    disabled: true
     conf:
       add:
         - name: index
