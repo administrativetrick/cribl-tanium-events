@@ -28,7 +28,7 @@ Initial release!
 
 
 ## Contributing to the Pack
-Discuss this pack on the Community Slack channel #packs.
+Discuss this pack on the Community Slack channel #packs, or fork this repo and submit a merge request after your changes are complete.
 
 ## Contact
 
