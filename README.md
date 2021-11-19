@@ -1,7 +1,7 @@
 # Tanium
 ----
 
-This pack is targeted for Collection and Processing of Tanium Events. Every time we solve interesting use cases our intent is to add them to this knowledge pack.
+This pack is targeted for Collection and Processing of Tanium Events. Use this to help pack to help normalize Tanium Connect Data, and reduce Tanium All Asset Reports by approximately 20%. Every time we solve interesting use cases our intent is to add them to this knowledge pack.
 
 
 ## Requirements Section
@@ -10,7 +10,6 @@ Before you begin, ensure that you have met the following requirements:
 
 * A Tanium Connect job pointing to your Cribl Logstream instance
 * If using TaaS a ticket must be created to open up ports in your TaaS Environement's Firewall or Self Service used if that is available in your TaaS instance.
-
 
 
 ## Got a problem?
