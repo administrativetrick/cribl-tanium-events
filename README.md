@@ -20,6 +20,9 @@ We will solve it, put it in the pack and add you to our contributors list! What 
 
 ## Release Notes
 
+### Version 0.0.5 - 2021-09-24
+Added in an additional pipeline for Tanium Asset Software Connect Jobs runs. Edited field names to make them more readable. Field names now roll back into _raw to reduce event size. Added in event samples. Renames routes and pipelines to be more accurate now that there is more than one. Changed route filters to be more specific.
+
 ### Version 0.0.1 - 2021-09-24
 Initial release!
 
