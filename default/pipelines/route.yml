@@ -1,14 +1,23 @@
 id: default
 groups: {}
 routes:
+  - id: ZNdnXv
+    name: TaniumSoftwareUsage
+    final: true
+    disabled: false
+    pipeline: TaniumSoftwareUsage
+    description: ""
+    clones: []
+    filter: sourcetype=='tanium' && /^.*ci_siu.*/.test(_raw)
+    output: default
   - id: XqkY1x
-    name: Tanium
+    name: TaniumAsset
     final: true
     disabled: false
     pipeline: TaniumAsset
     description: A route for Tanium Data
     clones: []
-    filter: sourcetype=='tanium'
+    filter: sourcetype=='tanium' && /^.*ci_item_serial_number*/.test(_raw)
     output: default
   - id: default
     name: default

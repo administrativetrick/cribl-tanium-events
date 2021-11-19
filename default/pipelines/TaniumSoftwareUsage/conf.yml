@@ -1,0 +1,44 @@
+output: default
+groups: {}
+asyncFuncTimeout: 1000
+functions:
+  - id: eval
+    filter: "true"
+    disabled: null
+    conf:
+      add:
+        - name: sourcetype
+          value: "'tanium:asset:softwareusage'"
+        - name: index
+          value: "'tanium'"
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: extract
+      type: json
+      srcField: _raw
+      dstField: _raw
+  - id: rename
+    filter: "true"
+    disabled: null
+    conf:
+      wildcardDepth: 5
+      baseFields:
+        - _raw
+      rename:
+        - currentName: ci_siu_product_usage_last_used_date
+          newName: product_last_used_date
+        - currentName: ci_siu_product_usage_name
+          newName: product_usage_name
+        - currentName: ci_siu_product_usage_usage
+          newName: product_usage_usage
+        - currentName: ci_siu_product_usage_vendor
+          newName: product_usage_vendor
+        - currentName: " ci_item_operating_system"
+          newName: os
+        - currentName: " ci_item_user_name"
+          newName: username
+        - currentName: " ci_item_computer_name"
+          newName: computer_name
+description: Tanium Software Usage Report Pipeline

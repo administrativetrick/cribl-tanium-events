@@ -1,44 +1,48 @@
 output: default
-groups:
-  PUd1CG:
-    name: JSON
-    description: Serialize top level fields back to _raw as a JSON string
-    index: 0
-    disabled: false
+groups: {}
 asyncFuncTimeout: 1000
 functions:
-  - id: serde
-    filter: "true"
-    disabled: false
-    conf:
-      mode: reserialize
-      type: json
-      srcField: _raw
-      cleanFields: false
-      fields: []
-      keep:
-        - ci_item_computer_name*
-        - ci_item_created_at
-        - ci_item_manufacturer*
-        - ci_ip_address*
-        - ci_item_os_platform*
-        - ci_item_serial_number*
-        - ci_item_user_name*
-      dstField: _raw
-      remove:
-        - "*"
-    groupId: PUd1CG
   - id: comment
     filter: "true"
     disabled: null
     conf:
-      comment: Enable Eval to set Index name if sending to Splunk
+      comment: Enable Eval to set Index name and sourcetype if sending to Splunk
   - id: eval
     filter: "true"
-    disabled: true
+    disabled: false
     conf:
       add:
         - name: index
-          value: '"tanium"'
+          value: "'tanium'"
+        - name: sourcetype
+          value: "'tanium:asset:allassets'"
       keep: []
-description: Azure AD Pipeline
+      remove:
+        - host
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: extract
+      type: json
+      srcField: _raw
+      dstField: _raw
+  - id: rename
+    filter: "true"
+    disabled: null
+    conf:
+      wildcardDepth: 5
+      rename:
+        - currentName: ci_item_computer_name
+          newName: hostname
+        - currentName: ci_item_serial_number
+          newName: serial_number
+        - currentName: ci_item_os_platform
+          newName: os
+        - currentName: ci_item_manufacturer
+          newName: manufacturer
+        - currentName: ci_item_user_name
+          newName: username
+      baseFields:
+        - _raw
+description: Tanium Asset Pipeline
