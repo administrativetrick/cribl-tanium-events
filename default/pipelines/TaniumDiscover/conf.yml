@@ -1,0 +1,47 @@
+output: default
+groups: {}
+asyncFuncTimeout: 1000
+functions:
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Enable Eval to set Index name and sourcetype if sending to Splunk
+  - id: eval
+    filter: index=='tanium' &&
+      /^.*MacAddress.*"MacOrganization.*Unmanageable.*0/.test(_raw)
+    disabled: false
+    conf:
+      add:
+        - name: index
+          value: "'tanium'"
+        - name: sourcetype
+          value: "'tanium:discover:unmanaged'"
+      keep: []
+      remove:
+        - host
+  - id: eval
+    filter: index=='tanium' &&
+      /^.*MacAddress.*"MacOrganization.*Unmanageable.*1/.test(_raw)
+    disabled: null
+    conf:
+      add:
+        - name: index
+          value: "'tanium'"
+        - name: sourcetype
+          value: "'tanium:discover:unmanagable'"
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Drop null value fields
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: reserialize
+      type: json
+      srcField: _raw
+      dstField: _raw
+      fieldFilterExpr: (value !== "") && value !== null
+description: Tanium Asset Pipeline

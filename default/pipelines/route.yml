@@ -8,7 +8,7 @@ routes:
     pipeline: TaniumSoftwareUsage
     description: ""
     clones: []
-    filter: sourcetype=='tanium' && /^.*ci_siu.*/.test(_raw)
+    filter: index=='tanium' && /^.*ci_siu.*/.test(_raw)
     output: default
   - id: XqkY1x
     name: TaniumAsset
@@ -17,7 +17,16 @@ routes:
     pipeline: TaniumAsset
     description: A route for Tanium Data
     clones: []
-    filter: sourcetype=='tanium' && /^.*ci_item_serial_number*/.test(_raw)
+    filter: index=='tanium' && /^.*ci_item_serial_number*/.test(_raw)
+    output: default
+  - id: 3TYOV5
+    name: TaniumDiscover
+    final: true
+    disabled: false
+    pipeline: TaniumDiscover
+    description: ""
+    clones: []
+    filter: index=='tanium' && /^.*MacAddress.*"MacOrganization.*Profile/.test(_raw)
     output: default
   - id: default
     name: default
