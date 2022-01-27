@@ -19,6 +19,9 @@ We will solve it, put it in the pack and add you to our contributors list! What 
 
 ## Release Notes
 
+### Version 0.6.2 - 2021-11-18
+Fixed Sample Logs file size
+
 ### Version 0.6.1 - 2021-11-18
 Fixed syntax error in sample file that prevented sample from displaying correctly.
 
