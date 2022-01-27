@@ -38,6 +38,8 @@ functions:
         - currentName: ci_item_serial_number
           newName: serial_number
         - currentName: ci_item_os_platform
+          newName: os_platform
+        - currentName: ci_item_operating_system
           newName: os
         - currentName: ci_item_manufacturer
           newName: manufacturer
