@@ -21,6 +21,7 @@ We will solve it, put it in the pack and add you to our contributors list! What 
 
 ### Version 0.6.2 - 2021-11-18
 Fixed Sample Logs file size in samples.yaml
+
 Update conf.yml for TaniumAsset pipeline to change ci_item_os_platform to os_platform instead of os, and changed ci_item_operating_system to os to more accurately reflect the true value of these fields.
 
 ### Version 0.6.1 - 2021-11-18
