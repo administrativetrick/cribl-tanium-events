@@ -1,7 +1,7 @@
 # Tanium
 ----
 
-This pack is targeted for Collection and Processing of Tanium Events. Use this to help pack to help normalize Tanium Connect Data, and reduce Tanium All Asset Reports by approximately 20% and reduces Tanium Discover Data by up to 30%. Every time we solve interesting use cases our intent is to add them to this knowledge pack.
+This pack is targeted for Collection and Processing of Tanium Events. Use this to help pack to help normalize Tanium Connect Data, and reduce Tanium All Asset Reports by approximately 20% and reduces Tanium Discover Data by up to 30%. Drops null events. Every time we solve interesting use cases our intent is to add them to this knowledge pack.
 
 
 ## Requirements Section
