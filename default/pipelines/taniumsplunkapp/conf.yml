@@ -1,0 +1,30 @@
+output: default
+groups: {}
+asyncFuncTimeout: 1000
+functions:
+  - id: eval
+    filter: "true"
+    disabled: null
+    conf:
+      add:
+        - name: sourcetype
+          value: "'tanium'"
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: extract
+      type: json
+      srcField: _raw
+      dstField: _raw
+  - id: rename
+    filter: "true"
+    disabled: null
+    conf:
+      wildcardDepth: 5
+      baseFields:
+        - _raw
+      renameExpr: name.replace(/ /g,'_')
+      rename:
+        - currentName: question
+          newName: Question
