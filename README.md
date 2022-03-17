@@ -19,6 +19,9 @@ We will solve it, put it in the pack and add you to our contributors list! What 
 
 ## Release Notes
 
+### Version 0.6.3 - 2022-03-17
+Added comments to Routes to better explain their purpose. Added space saving routes into their own groups. Added route for use with the Tanium Splunk App.
+
 ### Version 0.6.2 - 2021-11-18
 Fixed Sample Logs file size
 
