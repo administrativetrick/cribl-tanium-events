@@ -11,6 +11,8 @@ Before you begin, ensure that you have met the following requirements:
 * A Tanium Connect job pointing to your Cribl Logstream instance
 * If using TaaS a ticket must be created to open up ports in your TaaS Environement's Firewall or Self Service used if that is available in your TaaS instance.
 
+After importing the Pack you can choose to use the routes for Space Savings (smaller field names, and removing null value fields) or you can choose the route that preserves original field names for better compatability with the Tanium app for Splunk. You can still choose the Space Savings routes, but additional modification of the Tanium app for Splunk may be required.
+
 
 ## Got a problem?
 
