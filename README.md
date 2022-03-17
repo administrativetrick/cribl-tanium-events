@@ -1,7 +1,7 @@
 # Tanium
 ----
 
-This pack is targeted for Collection and Processing of Tanium Events. Use this to help pack to help normalize Tanium Connect Data, and reduce Tanium All Asset Reports by approximately 20% and reduces Tanium Discover Data by up to 30%. Drops null events. Every time we solve interesting use cases our intent is to add them to this knowledge pack.
+This pack is targeted for Collection and Processing of Tanium Events. Use this to help pack to help normalize Tanium Connect Data, and reduce Tanium All Asset Reports by approximately 20%. Every time we solve interesting use cases our intent is to add them to this knowledge pack.
 
 
 ## Requirements Section
@@ -20,9 +20,7 @@ We will solve it, put it in the pack and add you to our contributors list! What 
 ## Release Notes
 
 ### Version 0.6.2 - 2021-11-18
-Fixed Sample Logs file size in samples.yaml
-
-Update conf.yml for TaniumAsset pipeline to change ci_item_os_platform to os_platform instead of os, and changed ci_item_operating_system to os to more accurately reflect the true value of these fields.
+Fixed Sample Logs file size
 
 ### Version 0.6.1 - 2021-11-18
 Fixed syntax error in sample file that prevented sample from displaying correctly.
