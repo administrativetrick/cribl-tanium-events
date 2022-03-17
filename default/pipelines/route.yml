@@ -1,5 +1,8 @@
 id: default
-groups: {}
+groups:
+  gLshfU:
+    name: Space Saving
+    index: 1
 routes:
   - id: ZNdnXv
     name: TaniumSoftwareUsage
@@ -8,8 +11,11 @@ routes:
     pipeline: TaniumSoftwareUsage
     description: ""
     clones: []
+    enableOutputExpression: false
+    outputExpression: null
     filter: index=='tanium' && /^.*ci_siu.*/.test(_raw)
     output: default
+    groupId: gLshfU
   - id: XqkY1x
     name: TaniumAsset
     final: true
@@ -17,8 +23,11 @@ routes:
     pipeline: TaniumAsset
     description: A route for Tanium Data
     clones: []
+    enableOutputExpression: false
+    outputExpression: null
     filter: index=='tanium' && /^.*ci_item_serial_number*/.test(_raw)
     output: default
+    groupId: gLshfU
   - id: 3TYOV5
     name: TaniumDiscover
     final: true
@@ -26,7 +35,21 @@ routes:
     pipeline: TaniumDiscover
     description: ""
     clones: []
+    enableOutputExpression: false
+    outputExpression: null
     filter: index=='tanium' && /^.*MacAddress.*"MacOrganization.*Profile/.test(_raw)
+    output: default
+    groupId: gLshfU
+  - id: k0aXnc
+    name: Tanium-SplunkApp
+    final: true
+    disabled: false
+    pipeline: taniumsplunkapp
+    description: Turn this route on if you are using the Tanium Splunk App
+    clones: []
+    enableOutputExpression: false
+    outputExpression: null
+    filter: index=='tanium'
     output: default
   - id: default
     name: default
@@ -35,5 +58,17 @@ routes:
     pipeline: main
     description: ""
     clones: []
+    enableOutputExpression: false
+    outputExpression: null
     filter: "true"
     output: default
+comments:
+  - id: XuUNl4
+    comment: "WARNING: Breaks Tanium Splunk App. Turn the below group on for optimal
+      space savings, this may break functionality with the Tanium Splunk App. To
+      fix this you can create aliases in Splunk."
+    index: 0
+  - id: 6CDHGA
+    comment: Turn this route on if you are using the Tanium Splunk App and turn the
+      Space Saving Group off.
+    index: 4
