@@ -11,7 +11,7 @@ functions:
     filter: "true"
     disabled: true
     conf:
-      srcField: _raw
+      srcField: _raw.Timestamp
       dstField: _time
       defaultTimezone: local
       timeExpression: time.getTime() / 1000
