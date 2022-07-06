@@ -2,6 +2,30 @@ output: default
 groups: {}
 asyncFuncTimeout: 1000
 functions:
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Turn this function on if sending JSON from Tanium Connect using Syslog
+  - id: auto_timestamp
+    filter: "true"
+    disabled: true
+    conf:
+      srcField: _raw
+      dstField: _time
+      defaultTimezone: local
+      timeExpression: time.getTime() / 1000
+      offset: 0
+      maxLen: 150
+      defaultTime: now
+      latestDateAllowed: +1week
+      earliestDateAllowed: -420weeks
+    description: Turn this function on if sending JSON from Tanium Connect using Syslog
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Add a sourcetype of tanium
   - id: eval
     filter: "true"
     disabled: null
@@ -9,6 +33,11 @@ functions:
       add:
         - name: sourcetype
           value: "'tanium'"
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Extract fields in _raw and place them back into _raw
   - id: serde
     filter: "true"
     disabled: null
@@ -17,6 +46,11 @@ functions:
       type: json
       srcField: _raw
       dstField: _raw
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Rename fields with lower case question to uppercase Question
   - id: rename
     filter: "true"
     disabled: null
@@ -24,7 +58,27 @@ functions:
       wildcardDepth: 5
       baseFields:
         - _raw
-      renameExpr: name.replace(/ /g,'_')
       rename:
         - currentName: question
           newName: Question
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Use this if you want to enrich your Tanium Asset data with a tag based
+        off Installed Software, this is useful for alerting on a list of
+        unwanted application installs
+  - id: lookup
+    filter: "true"
+    disabled: null
+    conf:
+      matchMode: exact
+      reloadPeriodSec: 60
+      addToEvent: false
+      inFields:
+        - eventField: MD5_Hash
+          lookupField: MD5_Hash
+      ignoreCase: false
+      file: application_approval_status.csv
+      outFields:
+        - lookupField: approved
