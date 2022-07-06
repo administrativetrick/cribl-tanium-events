@@ -11,8 +11,8 @@ Before you begin, ensure that you have met the following requirements:
 * A Tanium Connect job pointing to your Cribl Logstream instance
 * If using TaaS a ticket must be created to open up ports in your TaaS Environement's Firewall or Self Service used if that is available in your TaaS instance.
 
-After importing the Pack you can choose to use the routes for Space Savings (smaller field names, and removing null value fields) or you can choose the route that preserves original field names for better compatability with the Tanium app for Splunk. You can still choose the Space Savings routes, but additional modification of the Tanium app for Splunk may be required.
-
+## Enrichment
+Use the application_approval_status.csv Lookup Knowledge Object to enrich your Tanium Data with a new field approved. You can give that field a value of True of False, or Yes or No. If an Md5 or Product name matches a name given in this Lookup, a new field named approved will be created in the event with a value that matches the value present in the Lookup file.
 
 ## Got a problem?
 
@@ -20,6 +20,15 @@ We will solve it, put it in the pack and add you to our contributors list! What 
 
 
 ## Release Notes
+
+## Version 0.6.5 - 2022-07-06
+Added additional comments into taniumsplunkapp pipeline to make their uses clear
+Added AutoTimestamp function for use with Tanium data sent via syslog. This function is disabled by default but can be enabled for those sending via syslog.
+Removed filter to replace spaces with _'s to better match Splunk App
+
+
+### Version 0.6.4 - 2022-03-23
+Added a lookup function in the taniumsplunkapp pipeline that can be used to enrich Tanium data with an approval status for events that have a MD5_Hash or product_usage_name that matches a value in the lookup.
 
 ### Version 0.6.3 - 2022-03-17
 Added comments to Routes to better explain their purpose. Added space saving routes into their own groups. Added route for use with the Tanium Splunk App.
