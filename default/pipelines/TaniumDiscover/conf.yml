@@ -44,4 +44,5 @@ functions:
       srcField: _raw
       dstField: _raw
       fieldFilterExpr: (value !== "") && value !== null
-description: Tanium Asset Pipeline
+description: Tanium Discover Pipeline for Discover Data
+streamtags: []
