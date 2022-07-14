@@ -4,9 +4,28 @@ gx6NAu:
   created: 1637266129087
   size: 3762
   numEvents: 6
+  modified: 1657134864674.999
+  isPackOnly: true
 8ssZ1E:
   sampleName: TaniumDiscover.log
   ttl: 0
   created: 1637366234133
   size: 10573
   numEvents: 8
+  modified: 1657134838023
+  isPackOnly: true
+qpvUkx:
+  sampleName: Tanium_Software_Usage_capture_20211118-103752.log.json
+  isTemplate: true
+  tsTemplateField: ""
+  created: 1657810541937
+  size: 34100
+  numEvents: 50
+GLMOn9:
+  sampleName: TaniumSoftwareUsage.log
+  ttl: 0
+  created: 1637260702376
+  size: 728631
+  numEvents: 1000
+  modified: 1657810874996
+  isPackOnly: false
