@@ -26,7 +26,7 @@ We will solve it, put it in the pack and add you to our contributors list! What 
 ### Version 0.6.6 - 2022-03-23
 * Changed naming convention of pack to follow Cribl standard naming convention for Cribl Community Packs
 * Changed names of sample files to match pipelines to follow Cribl best practices
-* Changed name of taniumsplunkapp pipeline to matche camel case of other pipelines
+* Changed name of taniumsplunkapp pipeline to match camel case of other pipelines
 * Added sample data for Tanium Software Usage
 * Added explanation of what sample data to use in TaniumSplunkApp pipeline
 
