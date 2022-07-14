@@ -1,1 +1,1 @@
-{"name":"Tanium","version":"0.6.6","author":"James Curtis","description":"Cribl Pack to deal with the ingestion of Tanium Logs into Cribl","displayName":"Tanium"}
+{"name":"cc-Tanium_0.6.6","version":"0.6.6","author":"James Curtis","description":"Cribl Pack to deal with the ingestion of Tanium Logs into Cribl","displayName":"Tanium","tags":{"streamtags":[],"useCase":["reduction","enrichment","routing"]}}
