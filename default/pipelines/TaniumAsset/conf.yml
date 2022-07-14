@@ -39,12 +39,13 @@ functions:
           newName: serial_number
         - currentName: ci_item_os_platform
           newName: os_platform
-        - currentName: ci_item_operating_system
-          newName: os
         - currentName: ci_item_manufacturer
           newName: manufacturer
         - currentName: ci_item_user_name
           newName: username
+        - currentName: ci_item_operating_system
+          newName: os
       baseFields:
         - _raw
-description: Tanium Asset Pipeline
+description: Tanium Asset Pipeline for Tanium Asset data
+streamtags: []
