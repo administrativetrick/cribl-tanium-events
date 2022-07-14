@@ -3,13 +3,14 @@ groups:
   gLshfU:
     name: Space Saving
     index: 1
+    description: Route group for space savings routes
 routes:
   - id: ZNdnXv
     name: TaniumSoftwareUsage
     final: true
     disabled: false
     pipeline: TaniumSoftwareUsage
-    description: ""
+    description: A route for Tanium Software Usage Data sent via a Tanium Connect Job.
     clones: []
     enableOutputExpression: false
     outputExpression: null
@@ -21,7 +22,7 @@ routes:
     final: true
     disabled: false
     pipeline: TaniumAsset
-    description: A route for Tanium Data
+    description: A route for Tanium Asset Data sent via a Tanium Connect Job.
     clones: []
     enableOutputExpression: false
     outputExpression: null
@@ -33,7 +34,7 @@ routes:
     final: true
     disabled: false
     pipeline: TaniumDiscover
-    description: ""
+    description: A route for Tanium Discover Data sent via a Tanium Connect Job.
     clones: []
     enableOutputExpression: false
     outputExpression: null
@@ -44,7 +45,7 @@ routes:
     name: Tanium-SplunkApp
     final: true
     disabled: false
-    pipeline: taniumsplunkapp
+    pipeline: TaniumSplunkApp
     description: Turn this route on if you are using the Tanium Splunk App
     clones: []
     enableOutputExpression: false
