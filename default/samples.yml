@@ -1,11 +1,11 @@
 gx6NAu:
-  sampleName: tanium_all_asset_capture_20211118-120759.log
+  sampleName: TaniumAsset.log
   ttl: 0
   created: 1637266129087
   size: 3762
   numEvents: 6
 8ssZ1E:
-  sampleName: tanium_discover_capture_20211119-155515.log
+  sampleName: TaniumDiscover.log
   ttl: 0
   created: 1637366234133
   size: 10573
