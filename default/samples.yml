@@ -15,17 +15,9 @@ gx6NAu:
   modified: 1657134838023
   isPackOnly: true
 qpvUkx:
-  sampleName: Tanium_Software_Usage_capture_20211118-103752.log.json
-  isTemplate: true
-  tsTemplateField: ""
+  sampleName: TaniumSoftwareUsage.log
+  ttl: 0
   created: 1657810541937
   size: 34100
   numEvents: 50
-GLMOn9:
-  sampleName: TaniumSoftwareUsage.log
-  ttl: 0
-  created: 1637260702376
-  size: 728631
-  numEvents: 1000
-  modified: 1657810874996
-  isPackOnly: false
+  isPackOnly: true
