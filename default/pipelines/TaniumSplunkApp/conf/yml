@@ -6,6 +6,12 @@ functions:
     filter: "true"
     disabled: null
     conf:
+      comment: You can use TaniumAsset, TaniumDiscover, or TaniumSoftwareUsage sample
+        files to test this pipeleine.
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
       comment: Turn this function on if sending JSON from Tanium Connect using Syslog
   - id: auto_timestamp
     filter: "true"
@@ -82,3 +88,5 @@ functions:
       file: application_approval_status.csv
       outFields:
         - lookupField: approved
+streamtags: []
+description: This pipeline is used if you are using the Tanium Splunk App
