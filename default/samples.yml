@@ -21,3 +21,38 @@ qpvUkx:
   size: 34100
   numEvents: 50
   isPackOnly: true
+tR3sP1:
+  sampleName: TaniumThreatResponse.log
+  ttl: 0
+  created: 1776297600000
+  size: 1636
+  numEvents: 3
+  isPackOnly: true
+c0MpLy:
+  sampleName: TaniumComply.log
+  ttl: 0
+  created: 1776297600000
+  size: 1162
+  numEvents: 3
+  isPackOnly: true
+pAt2Ch:
+  sampleName: TaniumPatch.log
+  ttl: 0
+  created: 1776297600000
+  size: 966
+  numEvents: 3
+  isPackOnly: true
+cL1SrV:
+  sampleName: TaniumClientStatus.log
+  ttl: 0
+  created: 1776297600000
+  size: 842
+  numEvents: 3
+  isPackOnly: true
+dEp10y:
+  sampleName: TaniumDeploy.log
+  ttl: 0
+  created: 1776297600000
+  size: 1011
+  numEvents: 3
+  isPackOnly: true

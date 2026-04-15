@@ -4,6 +4,16 @@ groups:
     name: Space Saving
     index: 1
     description: Route group for space savings routes
+  sEcGrP:
+    name: Security
+    index: 2
+    description: Routes for Tanium security data (Threat Response, Comply).
+      These send to a separate index by default; pair with a SIEM destination.
+  oPsGrP:
+    name: Operations
+    index: 3
+    description: Routes for Tanium operational data (Patch, Deploy, Client
+      Status). Useful for ops dashboards and stale-agent alerting.
 routes:
   - id: ZNdnXv
     name: TaniumSoftwareUsage
@@ -41,6 +51,71 @@ routes:
     filter: index=='tanium' && /^.*MacAddress.*"MacOrganization.*Profile/.test(_raw)
     output: default
     groupId: gLshfU
+  - id: wPqR7z
+    name: TaniumThreatResponse
+    final: true
+    disabled: false
+    pipeline: TaniumThreatResponse
+    description: Tanium Threat Response / EDR detection and Event Recorder data.
+    clones: []
+    enableOutputExpression: false
+    outputExpression: null
+    filter: (index=='tanium' || index=='tanium_security') &&
+      /process_sha256|process_md5|process_command_line/.test(_raw)
+    output: default
+    groupId: sEcGrP
+  - id: mKjN4x
+    name: TaniumComply
+    final: true
+    disabled: false
+    pipeline: TaniumComply
+    description: Tanium Comply vulnerability and compliance scan data.
+    clones: []
+    enableOutputExpression: false
+    outputExpression: null
+    filter: (index=='tanium' || index=='tanium_security') &&
+      /CVE-\d{4}-\d+|cvss_score|vulnerability_severity/.test(_raw)
+    output: default
+    groupId: sEcGrP
+  - id: hBtV2c
+    name: TaniumPatch
+    final: true
+    disabled: false
+    pipeline: TaniumPatch
+    description: Tanium Patch installation/applicability status data.
+    clones: []
+    enableOutputExpression: false
+    outputExpression: null
+    filter: (index=='tanium' || index=='tanium_ops') &&
+      /patch_bulletin|kb_article|patch_status/.test(_raw)
+    output: default
+    groupId: oPsGrP
+  - id: yZdF8s
+    name: TaniumClientStatus
+    final: true
+    disabled: false
+    pipeline: TaniumClientStatus
+    description: Tanium client health (last_registration, client version) data.
+    clones: []
+    enableOutputExpression: false
+    outputExpression: null
+    filter: (index=='tanium' || index=='tanium_ops') &&
+      /tanium_client_version|last_registration/.test(_raw)
+    output: default
+    groupId: oPsGrP
+  - id: nLgE5r
+    name: TaniumDeploy
+    final: true
+    disabled: false
+    pipeline: TaniumDeploy
+    description: Tanium Deploy software deployment status data.
+    clones: []
+    enableOutputExpression: false
+    outputExpression: null
+    filter: (index=='tanium' || index=='tanium_ops') &&
+      /deployment_name|deployment_status|package_version/.test(_raw)
+    output: default
+    groupId: oPsGrP
   - id: k0aXnc
     name: Tanium-SplunkApp
     final: true
@@ -72,4 +147,14 @@ comments:
   - id: 6CDHGA
     comment: Turn this route on if you are using the Tanium Splunk App and turn the
       Space Saving Group off.
-    index: 4
+    index: 9
+  - id: sEcCmt
+    comment: Security routes assume Tanium Connect jobs for Threat Response /
+      Comply set index=tanium (or tanium_security). Adjust filters if your
+      Source uses a different index name.
+    index: 3
+  - id: oPsCmt
+    comment: Operations routes target Patch, Deploy, and Client Status data.
+      They write to index=tanium_ops by default; change in each pipeline if
+      you prefer a unified tanium index.
+    index: 6

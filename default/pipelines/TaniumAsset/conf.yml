@@ -45,7 +45,56 @@ functions:
           newName: username
         - currentName: ci_item_operating_system
           newName: os
+        - currentName: ci_item_ip_address
+          newName: ip_address
       baseFields:
         - _raw
-description: Tanium Asset Pipeline for Tanium Asset data
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Enrich the event with site/region/timezone using locations.csv.
+        The lookup uses CIDR matching against ip_address. Disable if you do
+        not maintain locations.csv.
+  - id: lookup
+    filter: ip_address
+    disabled: false
+    conf:
+      matchMode: cidr
+      reloadPeriodSec: 60
+      addToEvent: true
+      inFields:
+        - eventField: ip_address
+          lookupField: subnet
+      ignoreCase: false
+      file: locations.csv
+      outFields:
+        - lookupField: site_name
+          eventField: site
+        - lookupField: region
+          eventField: region
+        - lookupField: country
+          eventField: country
+        - lookupField: timezone
+          eventField: timezone
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Optional PII masking of the username field. Disabled by
+        default. Enable to MD5-hash usernames before sending the event to a
+        lower-trust destination (e.g. an external SIEM tenant).
+  - id: mask
+    filter: "true"
+    disabled: true
+    conf:
+      rules:
+        - matchRegex: /("username"\s*:\s*")([^"]+)(")/
+          replaceExpr: "`${g1}${C.Mask.md5(g2)}${g3}`"
+      fields:
+        - _raw
+      depth: 5
+description: Tanium Asset Pipeline for Tanium Asset data. Renames Tanium
+  ci_item_* fields, optionally enriches with site/region from locations.csv,
+  and optionally masks usernames.
 streamtags: []

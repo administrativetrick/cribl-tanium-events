@@ -1,0 +1,78 @@
+output: default
+groups: {}
+asyncFuncTimeout: 1000
+functions:
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Tanium Deploy pipeline. Normalizes software deployment status
+        events from Tanium Deploy Connect jobs.
+  - id: eval
+    filter: "true"
+    disabled: false
+    conf:
+      add:
+        - name: index
+          value: "'tanium_ops'"
+        - name: sourcetype
+          value: "'tanium:deploy:status'"
+      keep: []
+      remove:
+        - host
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: extract
+      type: json
+      srcField: _raw
+      dstField: _raw
+  - id: rename
+    filter: "true"
+    disabled: null
+    conf:
+      wildcardDepth: 5
+      baseFields:
+        - _raw
+      rename:
+        - currentName: ci_item_computer_name
+          newName: dest
+        - currentName: computer_name
+          newName: dest
+        - currentName: deployment_name
+          newName: deployment
+        - currentName: package_name
+          newName: package
+        - currentName: package_version
+          newName: package_version
+        - currentName: deployment_status
+          newName: status
+        - currentName: start_time
+          newName: start_time
+        - currentName: end_time
+          newName: end_time
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Drop succeeded deployments older than 7 days. Disabled by
+        default - turn on if you only care about recent or failed runs.
+  - id: drop
+    filter: status === 'Succeeded' && end_time && (Date.now() - new
+      Date(end_time).getTime()) > 7*24*3600*1000
+    disabled: true
+    conf: {}
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: reserialize
+      type: json
+      srcField: _raw
+      dstField: _raw
+      fieldFilterExpr: (value !== "") && value !== null
+description: Pipeline for Tanium Deploy software deployment status events.
+streamtags:
+  - ops
+  - deploy

@@ -21,7 +21,40 @@ Use the application_approval_status.csv Lookup Knowledge Object to enrich your T
 We will solve it, put it in the pack and add you to our contributors list! What to Expect Knowledge of LogStream Power of the Pipeline Requirements A insatiable thirst for knowledge.
 
 
+## Pipelines
+
+| Pipeline | Use case | Default index / sourcetype |
+|---|---|---|
+| `TaniumAsset` | All Asset Reports normalization, optional location enrichment, optional PII mask | `tanium` / `tanium:asset:allassets` |
+| `TaniumDiscover` | Discover (managed/unmanageable hosts), null/empty field stripping | `tanium` / `tanium:discover:*` |
+| `TaniumSoftwareUsage` | Software Usage reports | `tanium` / `tanium:asset:softwareusage` |
+| `TaniumSplunkApp` | Pass-through for Tanium Splunk App users (preserves Splunk app field names) | `tanium` / `tanium` |
+| `TaniumThreatResponse` | EDR / Threat Response events, mapped to Splunk CIM Endpoint and ECS | `tanium_security` / `tanium:threatresponse` |
+| `TaniumComply` | Vulnerability scan data + CVE extraction, mapped to Splunk CIM Vulnerabilities | `tanium_security` / `tanium:comply:vulnerability` |
+| `TaniumPatch` | Patch installation/applicability status, mapped to CIM Updates | `tanium_ops` / `tanium:patch:status` |
+| `TaniumClientStatus` | Tanium client health (last_registration, version) for stale-agent alerting | `tanium_ops` / `tanium:client:status` |
+| `TaniumDeploy` | Software deployment status events | `tanium_ops` / `tanium:deploy:status` |
+
+### Lookups
+
+* `application_approval_status.csv` — match on `MD5_Hash` or `product_usage_name`, returns `approved` (Yes/No). Seeded with example browser/p2p/remote-access entries.
+* `locations.csv` — CIDR match on `subnet`, returns `site_name`, `region`, `country`, `timezone`. Wired into the `TaniumAsset` pipeline by default; populate with your own subnets.
+
 ## Release Notes
+
+### Version 0.7.0 - 2026-04-15
+* Added `TaniumThreatResponse` pipeline for Tanium Threat Response / EDR data with Splunk CIM Endpoint and ECS field mappings, optional PII masking
+* Added `TaniumComply` pipeline for vulnerability/compliance data with regex-based CVE extraction and CIM Vulnerabilities mapping
+* Added `TaniumPatch` pipeline for patch status normalization (CIM Updates) with optional drop of fully-installed/non-applicable noise
+* Added `TaniumClientStatus` pipeline that computes `hours_since_registration` for stale-agent alerting
+* Added `TaniumDeploy` pipeline for software deployment status events with optional drop of old succeeded deployments
+* Added `Security` and `Operations` route groups; new routes auto-detect ThreatResponse, Comply, Patch, ClientStatus, and Deploy traffic
+* Enhanced `TaniumAsset` with CIDR-based location enrichment from `locations.csv` (adds `site`, `region`, `country`, `timezone`) and an optional disabled-by-default username masking function
+* Seeded `application_approval_status.csv` with example approved/denied software entries
+* Seeded `locations.csv` with a CIDR → site/region/country/timezone schema and example rows
+* Added sample data for all five new pipelines
+* Updated pack manifest tags (`security`, `edr`, `vulnerability`, `patch`, `ops`, `health`, `deploy`) and use cases (`security`, `compliance`)
+* Documented codebase conventions in `CLAUDE.md`
 
 ### Version 0.6.6 - 2022-03-23
 * Changed naming convention of pack to follow Cribl standard naming convention for Cribl Community Packs

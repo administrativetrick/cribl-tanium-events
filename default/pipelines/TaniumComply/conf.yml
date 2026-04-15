@@ -1,0 +1,106 @@
+output: default
+groups: {}
+asyncFuncTimeout: 1000
+functions:
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Tanium Comply pipeline. Normalizes vulnerability scan results
+        and extracts CVE IDs into a dedicated field. Maps to Splunk CIM
+        Vulnerabilities data model.
+  - id: eval
+    filter: "true"
+    disabled: false
+    conf:
+      add:
+        - name: index
+          value: "'tanium_security'"
+        - name: sourcetype
+          value: "'tanium:comply:vulnerability'"
+      keep: []
+      remove:
+        - host
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: extract
+      type: json
+      srcField: _raw
+      dstField: _raw
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Map Tanium Comply fields to Splunk CIM Vulnerabilities.
+  - id: rename
+    filter: "true"
+    disabled: null
+    conf:
+      wildcardDepth: 5
+      baseFields:
+        - _raw
+      rename:
+        - currentName: ci_item_computer_name
+          newName: dest
+        - currentName: computer_name
+          newName: dest
+        - currentName: ci_item_ip_address
+          newName: dest_ip
+        - currentName: ip_address
+          newName: dest_ip
+        - currentName: cve_id
+          newName: cve
+        - currentName: cvss_score
+          newName: cvss
+        - currentName: cvss_base_score
+          newName: cvss
+        - currentName: vulnerability_severity
+          newName: severity
+        - currentName: vulnerability_title
+          newName: signature
+        - currentName: first_found
+          newName: first_found
+        - currentName: last_found
+          newName: last_found
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Pull the first CVE-YYYY-NNNN identifier from _raw into a
+        top-level "cve" field if the rename above did not catch it.
+  - id: regex_extract
+    filter: "!cve"
+    disabled: false
+    conf:
+      source: _raw
+      iterations: 1
+      overwrite: false
+      regex: /(?<cve>CVE-\d{4}-\d{4,7})/
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Normalize severity to lower-case CIM-friendly values.
+  - id: eval
+    filter: "severity"
+    disabled: false
+    conf:
+      add:
+        - name: severity
+          value: String(severity).toLowerCase()
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: reserialize
+      type: json
+      srcField: _raw
+      dstField: _raw
+      fieldFilterExpr: (value !== "") && value !== null
+description: Pipeline for Tanium Comply vulnerability/compliance scan data
+  with CVE extraction and CIM Vulnerability field mapping.
+streamtags:
+  - security
+  - vulnerability

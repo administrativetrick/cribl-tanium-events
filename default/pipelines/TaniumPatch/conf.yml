@@ -1,0 +1,82 @@
+output: default
+groups: {}
+asyncFuncTimeout: 1000
+functions:
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Tanium Patch pipeline. Normalizes patch installation/applicability
+        data and maps to Splunk CIM Updates fields (dest, signature, status,
+        vendor_product).
+  - id: eval
+    filter: "true"
+    disabled: false
+    conf:
+      add:
+        - name: index
+          value: "'tanium_ops'"
+        - name: sourcetype
+          value: "'tanium:patch:status'"
+      keep: []
+      remove:
+        - host
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: extract
+      type: json
+      srcField: _raw
+      dstField: _raw
+  - id: rename
+    filter: "true"
+    disabled: null
+    conf:
+      wildcardDepth: 5
+      baseFields:
+        - _raw
+      rename:
+        - currentName: ci_item_computer_name
+          newName: dest
+        - currentName: computer_name
+          newName: dest
+        - currentName: patch_bulletin
+          newName: signature
+        - currentName: bulletin_id
+          newName: signature
+        - currentName: kb_article
+          newName: kb
+        - currentName: patch_status
+          newName: status
+        - currentName: applicability
+          newName: applicability
+        - currentName: vendor
+          newName: vendor_product
+        - currentName: release_date
+          newName: release_date
+        - currentName: install_date
+          newName: install_date
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Drop fully-patched events to save volume. Disabled by default.
+  - id: drop
+    filter: status === 'Installed' && applicability === 'NotApplicable'
+    disabled: true
+    conf: {}
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: reserialize
+      type: json
+      srcField: _raw
+      dstField: _raw
+      fieldFilterExpr: (value !== "") && value !== null
+description: Pipeline for Tanium Patch data. Maps to Splunk CIM Updates and
+  optionally drops fully-installed/non-applicable noise events.
+streamtags:
+  - patch
+  - ops

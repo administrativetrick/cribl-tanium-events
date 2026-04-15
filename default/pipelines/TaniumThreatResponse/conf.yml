@@ -1,0 +1,138 @@
+output: default
+groups: {}
+asyncFuncTimeout: 1000
+functions:
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Tanium Threat Response / EDR pipeline. Tags events for Splunk
+        Endpoint CIM (Processes, Filesystem, Registry) and ECS-friendly field
+        names. Use for Connect jobs streaming Threat Response detection or
+        Event Recorder data.
+  - id: eval
+    filter: "true"
+    disabled: false
+    conf:
+      add:
+        - name: index
+          value: "'tanium_security'"
+        - name: sourcetype
+          value: "'tanium:threatresponse'"
+      keep: []
+      remove:
+        - host
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: extract
+      type: json
+      srcField: _raw
+      dstField: _raw
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Auto-timestamp from Tanium event time. Disable if your Source
+        already sets _time correctly.
+  - id: auto_timestamp
+    filter: "true"
+    disabled: false
+    conf:
+      srcField: _raw.timestamp
+      dstField: _time
+      defaultTimezone: UTC
+      timeExpression: time.getTime() / 1000
+      offset: 0
+      maxLen: 150
+      defaultTime: now
+      latestDateAllowed: +1week
+      earliestDateAllowed: -420weeks
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Map Tanium Threat Response fields to Splunk CIM Endpoint /
+        Elastic ECS conventions.
+  - id: rename
+    filter: "true"
+    disabled: null
+    conf:
+      wildcardDepth: 5
+      baseFields:
+        - _raw
+      rename:
+        - currentName: computer_name
+          newName: dest
+        - currentName: hostname
+          newName: dest
+        - currentName: user_name
+          newName: user
+        - currentName: process_path
+          newName: process_path
+        - currentName: process_command_line
+          newName: process
+        - currentName: process_name
+          newName: process_name
+        - currentName: process_id
+          newName: process_id
+        - currentName: parent_process_name
+          newName: parent_process_name
+        - currentName: parent_process_id
+          newName: parent_process_id
+        - currentName: process_md5
+          newName: process_hash_md5
+        - currentName: process_sha1
+          newName: process_hash_sha1
+        - currentName: process_sha256
+          newName: process_hash_sha256
+        - currentName: file_path
+          newName: file_path
+        - currentName: file_name
+          newName: file_name
+        - currentName: registry_path
+          newName: registry_path
+        - currentName: registry_value_name
+          newName: registry_value_name
+        - currentName: source_ip
+          newName: src_ip
+        - currentName: destination_ip
+          newName: dest_ip
+        - currentName: destination_port
+          newName: dest_port
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Drop empty/null fields to reduce volume.
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: reserialize
+      type: json
+      srcField: _raw
+      dstField: _raw
+      fieldFilterExpr: (value !== "") && value !== null
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Optional PII masking of usernames. Disabled by default. Enable
+        to hash user names before sending to lower-trust destinations.
+  - id: mask
+    filter: "true"
+    disabled: true
+    conf:
+      rules:
+        - matchRegex: /("user"\s*:\s*")([^"]+)(")/
+          replaceExpr: "`${g1}${C.Mask.md5(g2)}${g3}`"
+      fields:
+        - _raw
+      depth: 5
+description: Pipeline for Tanium Threat Response / EDR detection and Event
+  Recorder data. Maps to Splunk CIM Endpoint and ECS field names.
+streamtags:
+  - security
+  - edr

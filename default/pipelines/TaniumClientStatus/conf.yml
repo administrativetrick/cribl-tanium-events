@@ -1,0 +1,79 @@
+output: default
+groups: {}
+asyncFuncTimeout: 1000
+functions:
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Tanium client health pipeline. Normalizes client registration
+        and version data so you can alert on stale or out-of-date agents.
+  - id: eval
+    filter: "true"
+    disabled: false
+    conf:
+      add:
+        - name: index
+          value: "'tanium_ops'"
+        - name: sourcetype
+          value: "'tanium:client:status'"
+      keep: []
+      remove:
+        - host
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: extract
+      type: json
+      srcField: _raw
+      dstField: _raw
+  - id: rename
+    filter: "true"
+    disabled: null
+    conf:
+      wildcardDepth: 5
+      baseFields:
+        - _raw
+      rename:
+        - currentName: ci_item_computer_name
+          newName: dest
+        - currentName: computer_name
+          newName: dest
+        - currentName: ci_item_ip_address
+          newName: dest_ip
+        - currentName: ip_address
+          newName: dest_ip
+        - currentName: tanium_client_version
+          newName: client_version
+        - currentName: last_registration
+          newName: last_registration
+        - currentName: operating_system
+          newName: os
+  - id: comment
+    filter: "true"
+    disabled: null
+    conf:
+      comment: Compute hours since last_registration for downstream alerting.
+        Skips events that did not parse a valid date.
+  - id: eval
+    filter: last_registration
+    disabled: false
+    conf:
+      add:
+        - name: hours_since_registration
+          value: Math.round((Date.now() - new Date(last_registration).getTime()) / 3600000)
+  - id: serde
+    filter: "true"
+    disabled: null
+    conf:
+      mode: reserialize
+      type: json
+      srcField: _raw
+      dstField: _raw
+      fieldFilterExpr: (value !== "") && value !== null
+description: Pipeline for Tanium client health monitoring (registration age,
+  client version) to drive stale-agent and version-skew alerting.
+streamtags:
+  - ops
+  - health

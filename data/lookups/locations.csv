@@ -1,1 +1,8 @@
-location_name,location_ip_addr
+subnet,site_name,region,country,timezone
+10.1.0.0/16,NYC-HQ,Americas,US,America/New_York
+10.2.0.0/16,SFO-Office,Americas,US,America/Los_Angeles
+10.10.0.0/16,LON-Office,EMEA,UK,Europe/London
+10.20.0.0/16,FRA-DC,EMEA,DE,Europe/Berlin
+10.30.0.0/16,SYD-Office,APAC,AU,Australia/Sydney
+10.40.0.0/16,SIN-DC,APAC,SG,Asia/Singapore
+192.168.0.0/16,Lab,Americas,US,America/New_York
